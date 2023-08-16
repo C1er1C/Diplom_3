@@ -9,6 +9,8 @@ public class MainPage {
     private By bunButton = By.xpath(".//span[text()='Булки']");
     private By sauceButton = By.xpath(".//span[text()='Соусы']");
     private By fillingButton = By.xpath(".//span[text()='Начинки']");
+    private By createOrderButton = By.xpath(".//button[text()='Оформить заказ']");
+    private By menuText = By.xpath("//div[contains(@class,'tab_tab__1SPyG tab_tab_type_current__2BEPc')]");
     public MainPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -27,5 +29,10 @@ public class MainPage {
     public void clickFillingButton() {
         driver.findElement(fillingButton).click();
     }
-
+    public String getCreateOrderButtonText(){
+        return driver.findElement(createOrderButton).getText();
+    }
+    public String getMenuText(){
+        return driver.findElement(menuText).getText();
+    }
 }

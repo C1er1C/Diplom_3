@@ -9,6 +9,7 @@ public class LoginPage {
     private By loginButton = By.xpath(".//button[text()='Войти']");
     private By registerButton = By.xpath(".//a[(@class='Auth_link__1fOlj' and text()='Зарегистрироваться')]");
     private By forgotPasswordButton = By.xpath(".//a[(@class='Auth_link__1fOlj' and text()='Восстановить пароль')]");
+    private By loginLabelText = By.xpath(".//h2[text()='Вход']");
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -26,6 +27,13 @@ public class LoginPage {
     }
     public void clickForgotPasswordButton() {
         driver.findElement(forgotPasswordButton).click();
+    }
+    public String getLoginLabelText() {
+        return driver.findElement(loginLabelText).getText();
+    }
+    public void setUserLoginInfo(String email, String password) {
+        setEmailField(email);
+        setPasswordField(password);
     }
 
 }
