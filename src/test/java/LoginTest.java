@@ -1,4 +1,6 @@
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,12 +22,15 @@ public class LoginTest {
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments(new String[]{"--no-sandbox", "--headless", "--disable-dev-shm-usage"});
+        options.addArguments(new String[]{"--remote-allow-origins=*"});
         driver = new ChromeDriver(options);
         driver.get(UserSteps.baseURL);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10L));
+        RestAssured.baseURI = UserSteps.baseURL;
         user = UserDataGenerator.getRandomUser();
         accessToken = UserSteps.createNewUser(user).then().extract().path("accessToken");
+
+
     }
     @Test
     @DisplayName("Вход по кнопке «Войти в аккаунт» на главной")

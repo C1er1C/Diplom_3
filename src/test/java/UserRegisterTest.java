@@ -1,4 +1,5 @@
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Assert;
@@ -24,7 +25,7 @@ public class UserRegisterTest {
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments(new String[]{"--no-sandbox", "--headless", "--disable-dev-shm-usage"});
+        options.addArguments(new String[]{"--remote-allow-origins=*"});
         driver = new ChromeDriver(options);
         driver.get(UserSteps.baseURL);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10L));
@@ -44,8 +45,8 @@ public class UserRegisterTest {
         String text = loginPage.getLoginLabelText();
         Assert.assertEquals("Вход", text);
         UserLogin login = new UserLogin(user.getEmail(), user.getPassword());
-        Response response = UserSteps.loginUser(login);
-        accessToken = response.then().extract().path("accessToken");
+        RestAssured.baseURI = UserSteps.baseURL;
+        accessToken = UserSteps.loginUser(login).then().extract().path("accessToken");
     }
     @Test
     @DisplayName("Регистрация пользователя с некорректным паролем")
